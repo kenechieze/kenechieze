@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kenechi Eze — Investment & Advisory</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --cream: #F5F0E8;
+    --gold: #C9963A;
+    --gold-light: #E8C47A;
+    --rust: #B84C2A;
+    --forest: #1A3A2A;
+    --forest-mid: #2C5A3F;
+    --white: #FAFAF7;
+    --muted: #6B6560;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: normal;
+  }
+
+  nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(245, 240, 232, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: -1;
+  }
+
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--forest);
+    padding: 160px 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(201,150,58,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,150,58,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(52px, 6vw, 80px);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gold-light);
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(250,250,247,0.65);
+    max-width: 380px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    padding: 14px 32px;
+    border: 1px solid rgba(250,250,247,0.3);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hero-right {
+    background: var(--cream);
+    padding: 160px 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 60px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .stat-card {
+    background: var(--white);
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .stat-card:hover { transform: translateY(-4px); }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .stat-card:hover::before { transform: scaleX(1); }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-num span {
+    font-size: 28px;
+    color: var(--gold);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .hero-tagline {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--forest-mid);
+    line-height: 1.5;
+    padding-left: 24px;
+    border-left: 3px solid var(--gold);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    background: var(--forest);
+    padding: 20px 0;
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,150,58,0.7);
+    flex-shrink: 0;
+  }
+
+  .marquee-dot {
+    color: var(--gold);
+    margin: 0 30px;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 100px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--forest);
+    margin-bottom: 28px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--rust);
+  }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-card {
+    background: var(--forest);
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '"';
+    font-family: 'Fraunces', serif;
+    font-size: 200px;
+    font-weight: 900;
+    color: rgba(201,150,58,0.08);
+    position: absolute;
+    top: -40px; left: 20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .about-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-quote strong {
+    font-weight: 700;
+    font-style: normal;
+    color: var(--gold-light);
+  }
+
+  .about-location {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(250,250,247,0.4);
+    position: relative;
+    z-index: 1;
+  }
+
+  .about-accent {
+    position: absolute;
+    bottom: -20px; right: -20px;
+    width: 120px; height: 120px;
+    background: var(--gold);
+    z-index: -1;
+  }
+
+  .about-body {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #3A3530;
+    margin-bottom: 20px;
+  }
+
+  .about-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 36px;
+  }
+
+  .highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+
+  .highlight-dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* SERVICES */
+  .services {
+    background: var(--forest);
+    padding: 120px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .services::before {
+    content: '';
+    position: absolute;
+    top: -300px; right: -300px;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(201,150,58,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1280px;
+    margin: 0 auto 80px;
+    align-items: end;
+  }
+
+  .services-header .section-title {
+    color: var(--white);
+  }
+
+  .services-intro {
+    font-size: 16px;
+    line-height: 1.8;
+    color: rgba(250,250,247,0.6);
+    padding-top: 20px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .service-card {
+    background: rgba(250,250,247,0.04);
+    border: 1px solid rgba(250,250,247,0.06);
+    padding: 48px 40px;
+    position: relative;
+    transition: all 0.4s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    background: rgba(201,150,58,0.08);
+    border-color: rgba(201,150,58,0.3);
+    transform: translateY(-6px);
+  }
+
+  .service-num {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(201,150,58,0.12);
+    line-height: 1;
+    margin-bottom: 24px;
+    transition: color 0.4s;
+  }
+
+  .service-card:hover .service-num {
+    color: rgba(201,150,58,0.25);
+  }
+
+  .service-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .service-body {
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(250,250,247,0.55);
+    margin-bottom: 28px;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,150,58,0.3);
+    padding: 5px 12px;
+  }
+
+  /* EXPERIENCE */
+  .experience {
+    padding: 120px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .exp-header {
+    margin-bottom: 80px;
+  }
+
+  .timeline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .exp-card {
+    background: var(--white);
+    padding: 48px 40px;
+    position: relative;
+    transition: all 0.3s;
+    border-left: 3px solid transparent;
+  }
+
+  .exp-card:hover {
+    border-left-color: var(--gold);
+    transform: translateX(4px);
+  }
+
+  .exp-period {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .exp-role {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 6px;
+  }
+
+  .exp-company {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .exp-bullets li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #4A4540;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 6px; height: 1px;
+    background: var(--gold);
+  }
+
+  /* CREDENTIALS */
+  .credentials {
+    background: var(--ink);
+    padding: 100px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .credentials::before {
+    content: 'CREDENTIALS';
+    font-family: 'Fraunces', serif;
+    font-size: 200px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.02);
+    position: absolute;
+    bottom: -40px; left: -20px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .credentials-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 60px;
+  }
+
+  .cred-group h3 {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,150,58,0.3);
+  }
+
+  .cred-item {
+    margin-bottom: 24px;
+  }
+
+  .cred-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+
+  .cred-sub {
+    font-size: 12px;
+    color: rgba(250,250,247,0.4);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 120px 60px;
+    background: var(--cream);
+    position: relative;
+  }
+
+  .contact-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .contact-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 900;
+    color: var(--forest);
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+
+  .contact-title em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--rust);
+  }
+
+  .contact-sub {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 40px;
+  }
+
+  .contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    text-decoration: none;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--gold);
+    transition: color 0.3s;
+  }
+
+  .contact-email:hover { color: var(--gold); }
+
+  .contact-card {
+    background: var(--forest);
+    padding: 60px 48px;
+    position: relative;
+  }
+
+  .contact-card-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+  }
+
+  .focus-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .focus-list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 15px;
+    color: rgba(250,250,247,0.75);
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(250,250,247,0.06);
+  }
+
+  .focus-list li:last-child { border-bottom: none; }
+
+  .focus-icon {
+    width: 36px; height: 36px;
+    background: rgba(201,150,58,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 32px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(250,250,247,0.3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">KE</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Investment · Advisory · Africa</p>
+    <h1 class="hero-name">
+      Kenechi<br>
+      <em>Eze</em>
+    </h1>
+    <p class="hero-desc">
+      Investment professional and strategic advisor working at the intersection of capital, founders, and African market growth.
+    </p>
+    <div class="hero-ctas">
+      <a href="#services" class="btn-primary">What I Do</a>
+      <a href="#contact" class="btn-outline">Work Together</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">20<span>+</span></div>
+        <div class="stat-label">Startup investments executed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">60<span>+</span></div>
+        <div class="stat-label">Portfolio companies managed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$250<span>M</span></div>
+        <div class="stat-label">Fundraising process led</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4<span>+</span></div>
+        <div class="stat-label">Years across VC & credit</div>
+      </div>
+    </div>
+    <p class="hero-tagline">
+      Backing founders who are building the businesses Africa needs next.
+    </p>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Due Diligence</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Deal Structuring</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Founder Advisory</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">LP Relations</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Market Expansion</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">West Africa</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Capital Access</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Investment Strategy</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Pan-African Markets</span><span class="marquee-dot">◆</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Due Diligence</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Deal Structuring</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Founder Advisory</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">LP Relations</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Market Expansion</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">West Africa</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Capital Access</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Investment Strategy</span><span class="marquee-dot">◆</span>
+    <span class="marquee-item">Pan-African Markets</span><span class="marquee-dot">◆</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-visual reveal">
+    <div class="about-card">
+      <p class="about-quote">
+        My work lives where <strong>capital meets conviction</strong> — helping founders access funding and helping investors find the businesses worth backing.
+      </p>
+      <p class="about-location">Lagos, Nigeria · Pan-African Focus</p>
+    </div>
+    <div class="about-accent"></div>
+  </div>
+  <div class="reveal reveal-delay-1">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Investment expertise.<br><em>African context.</em></h2>
+    <p class="about-body">
+      With over four years spanning early-stage venture capital, private credit, and strategic advisory, I bring a rare combination of hands-on investment execution and legal rigour to every engagement.
+    </p>
+    <p class="about-body">
+      I've closed deals, written memos, sat in IC rooms, managed LP relationships, and worked shoulder-to-shoulder with founders navigating their most critical growth decisions — across Nigeria, East Africa, and beyond.
+    </p>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="highlight-dot"></div>
+        <span>Former analyst at Microtraction & Ingressive Capital — two of Africa's leading early-stage VC firms</span>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-dot"></div>
+        <span>Legal background (University of Kent LLB + Nigerian Law School) underpinning every deal evaluation</span>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-dot"></div>
+        <span>Masters in Management, EADA Business School Barcelona</span>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-dot"></div>
+        <span>McKinsey Forward Program alumna · CFA Investment Foundations · Future VC Fellow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div class="reveal">
+      <p class="section-label" style="color:var(--gold)">What I Do</p>
+      <h2 class="section-title">Three ways I can <em>help you.</em></h2>
+    </div>
+    <p class="services-intro reveal reveal-delay-1">
+      Whether you're a founder raising your first round, an SME navigating capital access, or a fund evaluating deal flow — I bring structured thinking, honest counsel, and deep market context.
+    </p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <h3 class="service-title">Founder Advisory & Fundraising Support</h3>
+      <p class="service-body">
+        Preparing early-stage founders for investor conversations — from pitch deck structure and financial modelling to investor targeting and due diligence readiness. I've sat on the other side of the table. I know what moves capital.
+      </p>
+      <div class="service-tags">
+        <span class="tag">Pitch Prep</span>
+        <span class="tag">Investor Targeting</span>
+        <span class="tag">DD Readiness</span>
+        <span class="tag">Term Sheets</span>
+      </div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <h3 class="service-title">SME Capital Access & Advisory</h3>
+      <p class="service-body">
+        Helping growth-stage SMEs identify the right funding instruments — grants, debt, equity, blended — and position themselves to access them. Built on deep mapping of the African funding landscape across 10+ markets.
+      </p>
+      <div class="service-tags">
+        <span class="tag">Funding Landscape</span>
+        <span class="tag">Grant Mapping</span>
+        <span class="tag">Capital Strategy</span>
+        <span class="tag">West Africa</span>
+      </div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <h3 class="service-title">Investment Evaluation & Due Diligence</h3>
+      <p class="service-body">
+        Supporting funds and family offices with deal evaluation, investment memo preparation, market research, and portfolio support. Combining commercial analysis with legal due diligence for a complete picture.
+      </p>
+      <div class="service-tags">
+        <span class="tag">Deal Analysis</span>
+        <span class="tag">Legal DD</span>
+        <span class="tag">Investment Memos</span>
+        <span class="tag">Portfolio Support</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="exp-header reveal">
+    <p class="section-label">Track Record</p>
+    <h2 class="section-title">Where I've <em>done the work.</em></h2>
+  </div>
+  <div class="timeline">
+    <div class="exp-card reveal">
+      <p class="exp-period">Oct 2024 – Present</p>
+      <h3 class="exp-role">Chief of Staff to Group CEO</h3>
+      <p class="exp-company">Moneda Invest Africa — Pan-African Energy Credit Fund</p>
+      <ul class="exp-bullets">
+        <li>Oversaw investor materials for $250M fundraising effort</li>
+        <li>Originated ~$200K in capital through personal networks</li>
+        <li>Led MeCash investment & partnerships with FNB and Standard Bank of Namibia</li>
+        <li>Designed Group-wide investor relations reporting framework</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-1">
+      <p class="exp-period">Jun 2022 – Sep 2023</p>
+      <h3 class="exp-role">Investment Analyst & Portfolio Lead</h3>
+      <p class="exp-company">Microtraction — Early-Stage African VC</p>
+      <ul class="exp-bullets">
+        <li>Executed 20+ startup investments end-to-end in 2022</li>
+        <li>Managed 60+ portfolio companies with value-creation plans</li>
+        <li>LP relations and reporting for 50+ Limited Partners</li>
+        <li>Built company-wide investment process SOPs</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal">
+      <p class="exp-period">Feb 2022 – Jun 2022</p>
+      <h3 class="exp-role">Investment Analyst</h3>
+      <p class="exp-company">Ingressive Capital — Seed-Stage VC</p>
+      <ul class="exp-bullets">
+        <li>Built deal pipeline via structured startup research</li>
+        <li>Wrote investment memos & presented to IC</li>
+        <li>Managed legal due diligence for all active deals</li>
+      </ul>
+    </div>
+    <div class="exp-card reveal reveal-delay-1">
+      <p class="exp-period">Jul 2021 – Jan 2022</p>
+      <h3 class="exp-role">Investment & Business Analyst</h3>
+      <p class="exp-company">Zuri Health</p>
+      <ul class="exp-bullets">
+        <li>Led and closed $1M pre-seed fundraising round</li>
+        <li>Managed full investor pipeline and communications</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="credentials">
+  <div class="credentials-inner">
+    <div class="cred-group reveal">
+      <h3>Education</h3>
+      <div class="cred-item">
+        <p class="cred-title">Masters in Management</p>
+        <p class="cred-sub">EADA Business School, Barcelona · 2024</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-title">LLB (Hons) Law</p>
+        <p class="cred-sub">University of Kent, Canterbury · 2019</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-title">Qualifying Degree in Law (BL)</p>
+        <p class="cred-sub">Nigerian Law School · 2022</p>
+      </div>
+    </div>
+    <div class="cred-group reveal reveal-delay-1">
+      <h3>Certifications</h3>
+      <div class="cred-item">
+        <p class="cred-title">CFA Investment Foundations</p>
+        <p class="cred-sub">CFA Institute · 2022</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-title">McKinsey Forward Program</p>
+        <p class="cred-sub">McKinsey & Company · 2023</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-title">Future VC Fellowship</p>
+        <p class="cred-sub">2021</p>
+      </div>
+    </div>
+    <div class="cred-group reveal reveal-delay-2">
+      <h3>Recognition</h3>
+      <div class="cred-item">
+        <p class="cred-title">EADA Disruptive Innovation Challenge</p>
+        <p class="cred-sub">Winner</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-title">Tony Elumelu Foundation</p>
+        <p class="cred-sub">Mentor · 2025</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-title">Dream VC · Nsonye</p>
+        <p class="cred-sub">Investment Mentor · 2022–2023</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="contact-title">Let's build<br><em>something.</em></h2>
+      <p class="contact-sub">
+        Whether you're a founder preparing to raise, a fund looking for deal support, or an organisation exploring African market entry — I'd like to hear from you.
+      </p>
+      <a href="mailto:Kenechieze27@gmail.com" class="contact-email">
+        Kenechieze27@gmail.com →
+      </a>
+    </div>
+    <div class="contact-card reveal reveal-delay-1">
+      <p class="contact-card-label">Currently Open To</p>
+      <ul class="focus-list">
+        <li>
+          <div class="focus-icon">🎯</div>
+          Investment roles at early-stage VC or PE platforms
+        </li>
+        <li>
+          <div class="focus-icon">🌍</div>
+          Pan-African & West Africa focused funds
+        </li>
+        <li>
+          <div class="focus-icon">🤝</div>
+          Founder advisory & fundraising engagements
+        </li>
+        <li>
+          <div class="focus-icon">📊</div>
+          Deal evaluation & due diligence projects
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Kenechi Eze</div>
+  <p class="footer-copy">Lagos, Nigeria · Pan-African Markets · kenechieze27@gmail.com</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
